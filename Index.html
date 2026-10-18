@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js")</script>
+<title>Kairos Network | Servidor de Minecraft</title>
+<meta name="description" content="Kairos Network: un network de Minecraft para quienes juegan en serio. Conoce el servidor, al equipo y únete.">
+<link rel="icon" href="logo_kairos.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--abismo:#070b1f;--medianoche:#0d1436;--borde:#26307a;--oro:#ffb020;--oro-fuerte:#ff7a00;--oro-claro:#ffd54a;--diamante:#4de6f5;--amatista:#9b3fe0;--hielo:#e8f1ff;--apagado:#97a3cf;--display:"Pixelify Sans","Press Start 2P",ui-monospace,"Courier New",monospace;--texto:"Barlow","Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:var(--texto);font-size:1.0625rem;line-height:1.6;color:var(--hielo);background: linear-gradient(rgba(77,230,245,.035) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,rgba(77,230,245,.035) 1px,transparent 1px) 0 0/48px 48px,var(--abismo);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--diamante);outline-offset:3px}
+.wrap{width:min(1120px,92vw);margin-inline:auto}
+.btn{display:inline-flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:.02em;padding:12px 22px;border:0;color:#2b1300;background:linear-gradient(var(--oro-claro),var(--oro) 55%,var(--oro-fuerte));box-shadow:0 -4px 0 0 #7a3a00,0 4px 0 0 #7a3a00,-4px 0 0 0 #7a3a00,4px 0 0 0 #7a3a00,inset 0 -5px 0 rgba(122,58,0,.45),inset 0 3px 0 rgba(255,255,255,.45);margin:4px;transition:transform .12s,filter .12s}
+.btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.btn:active{transform:translateY(2px)}
+.btn--oscuro{color:var(--hielo);background:linear-gradient(#1b2560,#101842);box-shadow:0 -4px 0 0 #3a49b8,0 4px 0 0 #3a49b8,-4px 0 0 0 #3a49b8,4px 0 0 0 #3a49b8,inset 0 -5px 0 rgba(0,0,0,.35),inset 0 3px 0 rgba(255,255,255,.12)}
+.btn img{width:22px;height:22px;image-rendering:pixelated}
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .25s,box-shadow .25s}
+.nav.solid{background:rgba(7,11,31,.92);backdrop-filter:blur(8px);box-shadow:0 4px 0 0 #1a2260}
+.nav-in{width:min(1280px,94vw);margin-inline:auto;height:68px;display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--display);font-weight:700;font-size:1.3rem;color:var(--oro-claro);text-shadow:0 3px 0 #7a3a00}
+.brand img{width:44px;height:44px;image-rendering:auto}
+.links{display:flex;gap:26px;margin-left:auto;list-style:none}
+.links a{text-decoration:none;font-weight:600;color:var(--hielo);opacity:.85;padding:6px 2px;border-bottom:3px solid transparent}
+.links a:hover{opacity:1;border-bottom-color:var(--oro)}
+.nav .btn{padding:8px 16px;font-size:.95rem}
+.hero{position:relative;isolation:isolate;overflow:hidden;height:min(100vh,56.25vw);min-height:640px;background:var(--abismo)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:url("kairos_invitacion_pro.png") center/cover no-repeat;transform:scale(var(--hs,1));transform-origin:50% 42%;opacity:var(--ho,1);will-change:transform}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:22%;z-index:-1;background:linear-gradient(transparent,var(--abismo))}
+.stage{height:100%;display:grid;grid-template-columns:1fr minmax(0,46%) 1fr;align-items:end;padding:72px 3vw 4vh}
+.core{align-self:end;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding-bottom:1vh}
+.owner{position:relative;justify-self:center;display:flex;flex-direction:column;align-items:center;gap:14px;animation:subir .9s cubic-bezier(.2,.8,.2,1) backwards}
+.owner--der{animation-delay:.18s}
+.owner::before{content:"";position:absolute;left:50%;bottom:62px;width:150%;aspect-ratio:3/1;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(255,176,32,.38),transparent 65%);z-index:-1}
+@keyframes subir{from{opacity:0;transform:translateY(46px)}to{opacity:1;transform:none}}
+.chibi{position:relative;overflow:hidden;width:clamp(120px,19vw,380px);cursor:pointer}
+.chibi img{position:absolute;max-width:none;height:auto;image-rendering:pixelated}
+.chibi--noa{aspect-ratio:333/369}
+.chibi--noa img{width:153.75%;left:-27.03%;top:-19.51%}
+.chibi--angel{aspect-ratio:auto}
+.chibi--angel img{position:static;width:100%;height:auto}
+.chibi--dev{aspect-ratio:1/1;width:min(100%,400px)}
+.chibi--dev img{inset:0;width:100%}
+.chibi:hover{animation:salto .5s steps(6)}
+@keyframes salto{40%{transform:translateY(-22px)}}
+.plate{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 22px 11px;margin:4px;background:#100622;box-shadow:0 -4px 0 0 #4a22b5,0 4px 0 0 #4a22b5,-4px 0 0 0 #4a22b5,4px 0 0 0 #4a22b5,inset 0 0 0 2px #1d0b44;text-align:center}
+.rank{font-family:var(--display);font-weight:700;font-size:.85rem;color:#2b1300;background:linear-gradient(var(--oro-claro),var(--oro-fuerte));padding:0 10px;line-height:1.5}
+.rank--dev{background:linear-gradient(#9dffbf,#17dd62)}
+.plate strong{font-family:var(--display);font-size:1.5rem;font-weight:700;line-height:1.15;color:var(--hielo)}
+.plate small{font-size:.85rem;color:var(--apagado)}
+.owner{z-index:5}
+.owner:hover,.owner:focus-within{z-index:20}
+.info{position:absolute;bottom:40px;left:100%;width:min(300px,86vw);transform:translateX(14px);opacity:0;visibility:hidden;pointer-events:none;padding:16px 18px 18px;margin:4px;text-align:left;background:#100622;box-shadow:0 -4px 0 0 #4a22b5,0 4px 0 0 #4a22b5,-4px 0 0 0 #4a22b5,4px 0 0 0 #4a22b5,inset 0 0 0 2px #1d0b44,0 14px 40px rgba(0,0,0,.55);transition:opacity .18s,transform .18s,visibility .18s}
+.owner--der .info{left:auto;right:100%;transform:translateX(-14px)}
+.info::after{content:"";position:absolute;left:-16px;bottom:46px;width:16px;height:16px;background:#4a22b5;clip-path:polygon(100% 0,100% 100%,0 50%)}
+.owner--der .info::after{left:auto;right:-16px;clip-path:polygon(0 0,0 100%,100% 50%)}
+.owner:hover .info,.owner:focus-within .info{opacity:1;visibility:visible;transform:none}
+.info-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+.info-head strong{font-family:var(--display);font-size:1.35rem;line-height:1.1;color:var(--hielo)}
+.info small{display:block;color:var(--diamante);font-weight:600;margin-bottom:10px}
+.info ul{list-style:none;display:grid;gap:6px}
+.info li{font-size:.95rem;line-height:1.35;color:#c5d0f0;padding-left:18px;position:relative}
+.info li::before{content:"";position:absolute;left:0;top:.5em;width:8px;height:8px;background:var(--oro);box-shadow:0 2px 0 #7a3a00}
+.info .tag{display:inline-block;margin-top:12px;font-family:var(--display);font-weight:700;font-size:.85rem;color:#2b1300;background:linear-gradient(var(--oro-claro),var(--oro-fuerte));padding:2px 10px}
+@media (max-width:900px){.info{left:0;right:auto;bottom:60px;transform:translateY(14px)}.owner--der .info{left:auto;right:0;transform:translateY(14px)}.owner:hover .info,.owner:focus-within .info{transform:none}.info::after,.owner--der .info::after{display:none}}
+.sec{padding:clamp(64px,9vw,120px) 0;position:relative}
+.sec + .sec::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,rgba(255,176,32,.7) 0 12px,transparent 12px 24px)}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.05;color:var(--oro-claro);text-shadow:0 4px 0 #8a4300,0 8px 0 rgba(0,0,0,.4);margin-bottom:20px}
+.lead{max-width:52ch;color:#c5d0f0;font-size:1.15rem}
+.server{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(32px,6vw,80px);align-items:start}
+.ip{margin-top:30px;max-width:520px;margin-inline:4px;background:#050816;padding:16px 18px;box-shadow:0 -4px 0 0 var(--borde),0 4px 0 0 var(--borde),-4px 0 0 0 var(--borde),4px 0 0 0 var(--borde)}
+.ip-top{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--apagado);margin-bottom:6px}
+.ip-top i{width:10px;height:10px;background:var(--apagado)}
+.ip.online .ip-top i{background:#3dff7a;box-shadow:0 0 10px #3dff7a}
+.ip.offline .ip-top i{background:#ff4d4d}
+.ip-row{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.ip code{font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--diamante);word-break:break-all;text-shadow:0 0 18px rgba(77,230,245,.35)}
+.inv{list-style:none;display:grid;gap:14px}
+.inv li{display:flex;gap:16px;align-items:center;padding:14px 18px;margin:4px;background:#0a0f2c;box-shadow:0 -4px 0 0 #2a1a6e,0 4px 0 0 #2a1a6e,-4px 0 0 0 #2a1a6e,4px 0 0 0 #2a1a6e;transition:box-shadow .15s,background .15s}
+.inv li:hover{background:#0f1640;box-shadow:0 -4px 0 0 var(--amatista),0 4px 0 0 var(--amatista),-4px 0 0 0 var(--amatista),4px 0 0 0 var(--amatista)}
+.slot{flex:none;width:60px;height:60px;display:grid;place-items:center;background:#1a2050;box-shadow:inset 4px 4px 0 #04061a,inset -4px -4px 0 #3a4690}
+.slot img{width:36px;height:36px;image-rendering:pixelated}
+.inv h3{font-family:var(--display);font-size:1.2rem;font-weight:700;color:var(--oro-claro);line-height:1.2}
+.inv p{color:#c5d0f0;font-size:1rem;line-height:1.4}
+.inv a{color:var(--diamante);font-weight:600;text-underline-offset:3px}
+.dev{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(24px,6vw,80px);align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;list-style:none}
+.chips li{padding:6px 14px;margin:4px;font-weight:600;background:#0a0f2c;color:var(--diamante);box-shadow:0 -3px 0 0 #1c5a6b,0 3px 0 0 #1c5a6b,-3px 0 0 0 #1c5a6b,3px 0 0 0 #1c5a6b}
+.dev-fig{display:flex;flex-direction:column;align-items:center;gap:14px;position:relative}
+.dev-fig::before{content:"";position:absolute;inset:8% 0 auto;aspect-ratio:1;background:radial-gradient(circle,rgba(61,255,122,.22),transparent 62%);z-index:-1}
+.staff{background:linear-gradient(120deg,rgba(155,63,224,.16),rgba(77,230,245,.07) 60%,transparent)}
+.staff-in{display:flex;align-items:center;gap:clamp(20px,5vw,60px);flex-wrap:wrap}
+.staff-ico{width:110px;height:110px;image-rendering:pixelated;flex:none}
+.staff-txt{flex:1 1 340px}
+footer{padding:40px 0 56px;border-top:4px solid #1a2260;color:var(--apagado);font-size:.92rem}
+.foot{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.foot img{width:56px;height:56px}
+.foot p{max-width:70ch}
+.ladder{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);gap:16px;align-items:end;margin-top:54px}
+.step{display:flex;flex-direction:column;gap:6px;padding:14px 10px 18px;margin:4px;text-align:center;background:#0a0f2c;box-shadow:0 -4px 0 0 var(--c),0 4px 0 0 var(--c),-4px 0 0 0 var(--c),4px 0 0 0 var(--c)}
+.step:nth-child(1){min-height:92px}
+.step:nth-child(2){min-height:128px}
+.step:nth-child(3){min-height:164px}
+.step:nth-child(4){min-height:200px}
+.step:nth-child(5){min-height:240px}
+.step:nth-child(6){min-height:290px;background:#1a1204}
+.step .r{font-family:var(--display);font-weight:700;font-size:1.25rem;color:var(--c);text-shadow:0 3px 0 rgba(0,0,0,.45)}
+.step .n{font-weight:600;color:var(--hielo);font-size:.95rem;overflow-wrap:normal}
+.off{pointer-events:none;opacity:.55}
+.btn:disabled{filter:grayscale(.5) brightness(.85);cursor:not-allowed;transform:none}
+@media (max-width:900px){.ladder{grid-template-columns:1fr;display:flex;flex-direction:column-reverse;gap:14px}.step{min-height:0!important;flex-direction:row;align-items:baseline;gap:14px;flex-wrap:wrap}}
+@media (max-width:900px){.links{display:none}.nav .btn{margin-left:auto}.hero{height:auto;min-height:0;padding-top:56.25vw}.hero::before{inset:0 0 auto 0;height:56.25vw;background-size:100% auto;background-position:top center}.hero::after{display:none}.stage{display:grid;grid-template-columns:1fr 1fr;gap:22px 4vw;align-items:end;padding:22px 4vw 48px}.core{grid-column:1/-1;grid-row:1;padding:0}.chibi{width:min(38vw,240px)}.server,.dev{grid-template-columns:1fr}.dev-fig{order:-1}}
+@media (max-width:420px){.plate{padding:8px 12px}.plate strong{font-size:1.2rem}.btn{font-size:.95rem;padding:10px 16px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.pasos{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.paso{display:flex;gap:14px;align-items:flex-start;padding:18px;margin:4px;background:#0a0f2c;box-shadow:0 -4px 0 0 #2a1a6e,0 4px 0 0 #2a1a6e,-4px 0 0 0 #2a1a6e,4px 0 0 0 #2a1a6e}
+.paso b{flex:none;width:44px;height:44px;display:grid;place-items:center;font-family:var(--display);font-size:1.5rem;color:#2b1300;background:linear-gradient(var(--oro-claro),var(--oro-fuerte));box-shadow:0 4px 0 #7a3a00}
+.paso h3{font-family:var(--display);color:var(--oro-claro);font-size:1.2rem;line-height:1.2;margin-bottom:4px}
+.paso p{color:#c5d0f0;font-size:1rem;line-height:1.45}
+.paso code{font-family:var(--display);color:var(--diamante);word-break:break-all}
+.vacio{margin-top:30px;max-width:520px;padding:30px 22px;background:#050816;color:var(--apagado);font-family:var(--display);font-size:1.4rem;outline:3px dashed var(--borde);outline-offset:-6px}
+.redes{display:flex;gap:6px;margin-left:auto}
+@media (max-width:900px){.pasos{grid-template-columns:1fr}.redes{margin-left:0}}
+.rv.rv{opacity:0;translate:0 46px;scale:.96;filter:blur(8px);transition:opacity .9s ease var(--d,0ms),translate .9s cubic-bezier(.16,1,.3,1) var(--d,0ms),scale .9s cubic-bezier(.16,1,.3,1) var(--d,0ms),filter .9s ease var(--d,0ms),box-shadow .15s,background .15s}
+.rv.rv.in{opacity:1;translate:0 0;scale:1;filter:none}
+.inv li.rv.rv{translate:70px 0}
+.inv li.rv.rv.in{translate:0 0}
+.core{animation:subir .9s .35s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes flota{50%{transform:translateY(-7px)}}
+.chibi{animation:flota 3.4s ease-in-out infinite}
+.chibi--angel{animation-delay:.7s}
+.chibi--dev{animation-delay:1.2s}
+
+/* ---------- barra de progreso y menú móvil ---------- */
+.progress{position:fixed;inset:0 0 auto 0;height:4px;z-index:80;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--oro-fuerte),var(--oro-claro),var(--diamante))}
+.burger{display:none;position:relative;width:48px;height:48px;margin-left:6px;border:0;cursor:pointer;background:#101842;box-shadow:0 -4px 0 0 #3a49b8,0 4px 0 0 #3a49b8,-4px 0 0 0 #3a49b8,4px 0 0 0 #3a49b8}
+.burger i{position:absolute;left:12px;right:12px;height:4px;background:var(--hielo);transition:transform .2s,opacity .2s,top .2s}
+.burger i:nth-child(1){top:14px}.burger i:nth-child(2){top:22px}.burger i:nth-child(3){top:30px}
+.menu-open .burger i:nth-child(1){top:22px;transform:rotate(45deg)}
+.menu-open .burger i:nth-child(2){opacity:0}
+.menu-open .burger i:nth-child(3){top:22px;transform:rotate(-45deg)}
+.menu{display:none}
+body.menu-open{overflow:hidden}
+
+/* ---------- manifiesto (texto que se ilumina al bajar) ---------- */
+.mani-track{position:relative}
+.mani-stage{display:grid;place-items:center;padding:clamp(90px,16vw,180px) 6vw}
+.mani{max-width:1080px;text-align:center;font-family:var(--display);font-weight:700;font-size:clamp(2rem,5.6vw,4.6rem);line-height:1.12;color:var(--hielo);text-shadow:0 5px 0 rgba(0,0,0,.35)}
+.mani .w{display:inline-block}
+.mani .w.gold{color:var(--oro-claro);text-shadow:0 5px 0 #8a4300}
+.mani b{font-weight:700}
+
+/* ---------- rangos: presentación que cambia de color al bajar ---------- */
+.rk{padding:0!important}
+.rk-stage{position:relative;overflow:hidden;--bgc:#5b6677}
+.rk-stage::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(60% 70% at 30% 52%,var(--glowc,rgba(255,255,255,.22)),transparent 70%)}
+.rk-head{position:relative;z-index:6;padding:clamp(22px,4vw,40px) 5vw 0}
+.rk-head h2{font-size:clamp(1.7rem,3.6vw,2.7rem);margin:0 0 6px}
+.rk-head p{color:rgba(255,255,255,.84);max-width:60ch}
+.rk-slides{position:relative;z-index:2}
+.rk-slide{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4vw;padding:56px 8vw;background:var(--bg);overflow:hidden}
+.rk-art{position:relative;display:grid;place-items:center}
+.rk-art img{width:clamp(170px,26vw,360px);height:auto;image-rendering:pixelated;filter:drop-shadow(0 12px 0 rgba(0,0,0,.35)) drop-shadow(0 0 40px var(--g3))}
+.rk-art::before{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;background:var(--g4);box-shadow:150px -90px 0 var(--g3),-160px -50px 0 var(--g4),110px 130px 0 var(--g2),-120px 120px 0 var(--g3),210px 30px 0 var(--g2),-210px 90px 0 var(--g4);animation:titilar 2.6s steps(2) infinite}
+@keyframes titilar{50%{opacity:.25}}
+.rk-n{font-family:var(--display);font-weight:700;font-size:1.3rem;color:var(--g4);letter-spacing:.04em}
+.rk-n small{opacity:.65;font-size:1rem}
+.rk-info h3{font-family:var(--display);font-weight:700;font-size:clamp(3.2rem,9vw,8rem);line-height:.95;color:var(--tx);text-shadow:0 8px 0 rgba(0,0,0,.4);margin:6px 0 10px;overflow-wrap:anywhere}
+.rk-info p{font-size:clamp(1.05rem,1.8vw,1.4rem);color:rgba(255,255,255,.88);max-width:30ch}
+.r-bar{display:flex;gap:6px;margin-top:22px;max-width:480px}
+.r-bar i{flex:1;height:18px;transform-origin:left;box-shadow:0 3px 0 rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.1)}
+.r-bar i:nth-child(1){background:var(--g1)}.r-bar i:nth-child(2){background:var(--g2)}.r-bar i:nth-child(3){background:var(--g3)}.r-bar i:nth-child(4){background:var(--g4)}.r-bar i:nth-child(5){background:var(--g5)}
+.rk-soon{display:block;margin-top:16px;color:rgba(255,255,255,.62);font-size:.95rem}
+.rk-rail{display:none}
+
+/* modo "presentación fija": solo si hay JS y el usuario no pidió menos movimiento */
+@media (prefers-reduced-motion:no-preference){
+  html.js .mani-track{height:250vh}
+  html.js .mani-stage{position:sticky;top:0;height:100vh;height:100svh;padding:0 6vw;overflow:hidden}
+  html.js .rk-track{height:calc(100vh + 6 * 80vh)}
+  html.js .rk-stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;background:var(--bgc)}
+  html.js .rk-stage::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(var(--abismo),transparent 11%,transparent 86%,rgba(7,11,31,.85))}
+  html.js .rk-slides{flex:1}
+  html.js .rk-slide{position:absolute;inset:0;background:none;padding:0 8vw;opacity:0;visibility:hidden}
+  html.js .rk-rail{position:relative;z-index:6;display:flex;justify-content:center;align-items:center;gap:10px;padding:0 4vw 24px}
+}
+@media (prefers-reduced-motion:no-preference) and (min-width:901px){
+  html.js .hero-track{height:190vh}
+  html.js .hero{position:sticky;top:0}
+}
+.rk-rail button{display:flex;align-items:center;gap:8px;height:48px;padding:0 10px;border:0;cursor:pointer;color:var(--hielo);background:rgba(0,0,0,.4);font-family:var(--display);font-weight:700;font-size:.95rem;opacity:.6;box-shadow:0 -3px 0 0 rgba(255,255,255,.2),0 3px 0 0 rgba(255,255,255,.2),-3px 0 0 0 rgba(255,255,255,.2),3px 0 0 0 rgba(255,255,255,.2);transition:opacity .2s,transform .2s}
+.rk-rail button img{width:28px;height:28px;image-rendering:pixelated}
+.rk-rail button span{display:none}
+.rk-rail button.on{opacity:1;transform:translateY(-4px);box-shadow:0 -3px 0 0 var(--g),0 3px 0 0 var(--g),-3px 0 0 0 var(--g),3px 0 0 0 var(--g)}
+.rk-rail button.on span{display:inline}
+
+/* ---------- móvil ---------- */
+@media (max-width:900px){
+  .burger{display:block}
+  .menu{position:fixed;inset:0;z-index:45;display:flex;flex-direction:column;gap:4px;padding:92px 8vw 40px;background:rgba(7,11,31,.98);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;overflow-y:auto}
+  .menu-open .menu{opacity:1;visibility:visible}
+  .menu a{font-family:var(--display);font-weight:700;font-size:2rem;color:var(--oro-claro);text-decoration:none;padding:12px 0;border-bottom:4px solid #1a2260;text-shadow:0 3px 0 #7a3a00}
+  .rk-slide{grid-template-columns:1fr;align-content:center;justify-items:center;text-align:center;gap:6px;padding:44px 7vw}
+  .rk-art img{width:min(46vw,190px)}
+  .rk-art::before{transform:scale(.55)}
+  .rk-info h3{font-size:clamp(2.8rem,15vw,4.4rem)}
+  .rk-info p{margin-inline:auto}
+  .r-bar{margin-inline:auto}
+  html.js .rk-slide{padding:0 7vw}
+  .rk-rail button{height:42px;padding:0 8px}
+  .rk-rail button img{width:24px;height:24px}
+  .rk-rail button.on span{display:none}
+  .rk-head{padding-top:84px}
+  .nav-in{gap:10px}
+  .brand{font-size:1.1rem}
+}
+@media (max-width:420px){.btn{font-size:.95rem}.nav .btn{padding:8px 12px}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#inicio"><img src="logo_kairos.png" alt="">Kairos Network</a>
+    <ul class="links">
+      <li><a href="#servidor">El servidor</a></li>
+      <li><a href="#entrar">Cómo entrar</a></li>
+      <li><a href="#staff">Staff</a></li>
+      <li><a href="#equipo">Devs</a></li>
+      <li><a href="#normas">Normas</a></li>
+      <li><a href="#rangos">Rangos</a></li>
+      <li><a href="#postular">Postular</a></li>
+    </ul>
+    <a class="btn btn--oscuro" data-cfg-href="discord" href="#" target="_blank" rel="noopener">Discord</a>
+    <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+  </div>
+</header>
+<nav class="menu" id="menu" aria-label="Menú principal">
+  <a href="#servidor">El servidor</a><a href="#entrar">Cómo entrar</a><a href="#staff">Staff</a><a href="#equipo">Devs</a><a href="#normas">Normas</a><a href="#rangos">Rangos</a><a href="#postular">Postular</a>
+</nav>
+
+<main>
+<div class="hero-track">
+<section class="hero" id="inicio" aria-label="Kairos Network">
+  <h1 class="sr-only">Kairos Network, servidor de Minecraft</h1>
+  <div class="stage">
+    <figure class="owner">
+      <div class="chibi chibi--noa" tabindex="0"><img src="chibi-noacrackk67-standing-pfp.png" alt="Chibi de NoaCrack, owner de Kairos Network"></div>
+      <div class="info" role="tooltip"><div class="info-head"><span class="rank">Owner</span><strong>NoaCrack</strong></div><small>Noacrackk67 · Ella</small><ul><li>Crea el contenido de Kairos Network.</li><li>Se encarga de la publicidad del servidor.</li><li>Diseña todo lo visual: la imagen y el estilo de Kairos.</li><li>La cara creativa del network.</li></ul></div>
+      <figcaption class="plate"><span class="rank">Owner</span><strong>NoaCrack</strong><small>noacrackk67</small></figcaption>
+    </figure>
+
+    <div class="core">
+      <button class="btn" type="button" data-copy><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABsUlEQVR42qWTsYpUMRSGvx22uQlYnRQ2N+0FsfURLHyAbawsxEKmkGUXbGQaQWxWxE6wmuYWIvgEC9MJWqexyDQyJG1OyrUx2bmWeqsLSb7z5fwnJ/M83/Af3ylAjBGAlFJfUFVEBBEhhACAiGCtZRgGaq3sdjtWAKUUSik45zrAGIOqUmtlmiYu3n/oRWqtfd/qWOfs/ILwYgPQYcMwEEJgfVA+3n3AOI7deAGw1rI+KN+/Xi8smvrDz58ACCHgvV/2QFUBmK42jKron8qllK4bQuDlBHtjKKUsAe2+rZqqknPm2E5EupW1tkNWzcA5h6qiqhhjyDnz5NWmQ2qt3SalhLX2FuCc68Rm4r1nfVDe3blHjJFSyuLgMAy3gHbYGIOIkHMmpcR0tVkMjTGGs/OLHu8iBRHh+Zu3/Hh2iYj0GB//vGaapg5ZH5Qv9x8tY2xVW4yqSowRY0wH5ZwREcbXl4upPf17cTo6lFIi59znoU3l01/f0GODFluLsDXJOYcxBmMM3ntSSuz3+8UVV8cPJ+eM954YIyGE3mkR6f/jOJJz7uN8Ms/zzXa7/efn/BsYJOsyYL8u8wAAAABJRU5ErkJggg==" alt="">Copiar IP</button>
+      <a class="btn btn--oscuro" data-cfg-href="discord" href="#" target="_blank" rel="noopener">Entrar al Discord</a>
+    </div>
+
+    <figure class="owner owner--der">
+      <div class="chibi chibi--angel" tabindex="0"><img src="chibi-angeldavid1899-block-pixel.png" onerror="this.onerror=null;this.src='chibi-angeldavid1899-standing-pfp.png'" alt="Chibi de AngelDavid, owner de Kairos Network"></div>
+      <div class="info" role="tooltip"><div class="info-head"><span class="rank">Owner</span><strong>AngelDavid</strong></div><small>AngelDavid1899</small><ul><li>Administra a los jugadores y al staff.</li><li>Mantiene las páginas del network.</li><li>Programa algunas partes del servidor.</li></ul><span class="tag">★ El owner más guapo ★</span></div>
+      <figcaption class="plate"><span class="rank">Owner</span><strong>AngelDavid</strong><small>AngelDavid1899</small></figcaption>
+    </figure>
+  </div>
+</section>
+</div>
+
+<div class="mani-track">
+  <div class="mani-stage">
+    <p class="mani">Kairos es <b>el instante justo</b>. Un network de Minecraft hecho para quienes <b>juegan en serio</b>.</p>
+  </div>
+</div>
+
+<section class="sec" id="servidor">
+  <div class="wrap server">
+    <div>
+      <h2>El momento es ahora</h2>
+      <p class="lead">Una comunidad cuidada, un staff presente y un equipo técnico que sostiene todo por detrás.</p>
+      <div class="ip" id="ipbox">
+        <div class="ip-top"><i></i><span id="estado">IP · Java y Bedrock</span></div>
+        <div class="ip-row">
+          <code data-cfg="ip">TU-IP-AQUI</code>
+          <button class="btn" type="button" data-copy>Copiar IP</button>
+        </div>
+      </div>
+    </div>
+
+    <ul class="inv">
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoUlEQVR42mNgGGjAiC7Ax6f0H5+GT5/uMeI0AKb5xMeDWDVb8NtjGMKErjn/YwtO22FyyK5kQtccyWCL04BIBlsMQxhhHNZZGlg1/bj0Gqs485S3DJ8+3WOEe+F32g2iQ555ylsGFC/AAoUUQ2B6mNAFCBmCbDuKAdjiGJdmrNGIDLC5AptmrAbg8wo2FzLhCyCYIej+xpsXcOULQuFDNgAAD7FTjNEiRYgAAAAASUVORK5CYII=" alt=""></span><div><h3>Versión</h3><p data-cfg="version">Java y Bedrock</p></div></li>
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAv0lEQVR42s2TsQ7CIBCGfxoHu9zazgx9JBP3bsY38FHYTXwF36RD5zYxMbJ0MaGDAQ+KVOLiTQT+7ztyBODHEnZBJE0OqHUvnMDCj9PRBUal0AwTUvsAsOHwqJTXpatLF+ZnNtsMEwSRNHajupxf4d3ehau2XYgB4Hq74/DcoggPOBx2jg6RSJquLrOn792ADyUHBoDCPse3Eg5r3YuCv+maJIQBvIe4JonBniAl+QQvBDFJCvb+Qljh34jB/1EzRKB+uyMe2fUAAAAASUVORK5CYII=" alt=""></span><div><h3>Jugadores en línea</h3><p id="jugadores">Estado no disponible</p></div></li>
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAb0lEQVR42mNgGPKAEZnDx6f0n1QDWNAFPr6oI0rjiSnZDO4t4gxMlNjOwMCAMIBU21EMINd2lDB4d1qS4e/j2QQ1nN54AbcXSAHuLeKUGcDAwMDw6dM9RiZKbKfIBZ8+3WNECUQh0+dEahUfZJkJAIb5HBkg9NbaAAAAAElFTkSuQmCC" alt=""></span><div><h3>Modalidades</h3><p>Por ahora, Survival.</p></div></li>
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArklEQVR42mNkIAPw8Sn9h7GZyNVsf+My6QbANF96f5fh7KYDpNvMx6f0/8Hf//+lZmz9D+OPamZgYESPV2Rw6f1dBqvZ2xi+lOUyMDAwMHz6dI8Rp20rSqz+ryix+k+qs1FcMCtNgoGBgYFhadFuhrObDhC2GWYANkPSZr0gqBmeEmGaa3w44RphBhECTDDNPjo/GFq2fEexnSgDYDZvucKB4mRiDWFEDmFC/sUGAJ8thpFEn8hEAAAAAElFTkSuQmCC" alt=""></span><div><h3>Comunidad</h3><p>Súmate a nuestro <a data-cfg-href="discord" href="#" target="_blank" rel="noopener">Discord oficial</a>.</p></div></li>
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA0UlEQVR42mNgoBAwwhh8fEr/CSn+9OkeI14D7G9cRpGcLM7FwMDAwJD78hvDQQ1drIbgdYH9jcsMZzcdYDD2c2BgYGDAaggjLuciG4jsMnRDGAn5G2YQLkOYiNHso/MDrgndMLya+fiU/ndFaf+Hsfn4lP4/+Pv/v9SMrf9hhjMRsrlly3cUP+e+/IailgmX5hofToYtVzgwQv2ghi48VjAMwGczroTERKzNuAALps0MRGtmYGBgYCLHZuQoZeDjU/ofZSUFjyaScyOyJmKdjQwAjEl16rDdD7UAAAAASUVORK5CYII=" alt=""></span><div><h3>Staff</h3><p>¿Quieres ayudar? <a data-cfg-href="formulario" href="#" target="_blank" rel="noopener">Postula al equipo</a>.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="entrar">
+  <div class="wrap">
+    <h2>Cómo entrar</h2>
+    <p class="lead">Son tres pasos y en menos de un minuto estás dentro. Vale tanto para Java como para Bedrock.</p>
+    <ol class="pasos">
+      <li class="paso"><b>1</b><div><h3>Abre Minecraft</h3><p>Java o Bedrock, en casi cualquier versión.</p></div></li>
+      <li class="paso"><b>2</b><div><h3>Añade el servidor</h3><p>Pon la IP <code>kairos.vultam.host</code> en Multijugador (Java) o en Servidores (Bedrock).</p></div></li>
+      <li class="paso"><b>3</b><div><h3>Acepta el texture pack</h3><p>Al llegar al lobby te saldrá un aviso: dale a aceptar y a jugar.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="staff">
+  <div class="wrap">
+    <h2>Nuestro staff</h2>
+    <p class="lead">Una jerarquía clara para cuidar el servidor y a la comunidad, desde helper hasta owner.</p>
+    <ol class="ladder" aria-label="Jerarquía del staff">
+      <li class="step" style="--c:#3dff7a"><span class="r">Helper</span></li>
+      <li class="step" style="--c:#4de6f5"><span class="r">Soporte</span></li>
+      <li class="step" style="--c:#5b8cff"><span class="r">Mod</span></li>
+      <li class="step" style="--c:#b06bff"><span class="r">SMod</span></li>
+      <li class="step" style="--c:#ff6a4d"><span class="r">Admin</span><span class="n">The_<wbr>Crow_<wbr>Raptor</span></li>
+      <li class="step" style="--c:#ffb020"><span class="r">Owner</span><span class="n">NoaCrack</span><span class="n">AngelDavid</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="equipo">
+  <div class="wrap dev">
+    <div>
+      <h2>También contamos con un equipo de devs</h2>
+      <p class="lead">Spartannic programa gran parte de Kairos Network. Su trabajo es lo que hace que el servidor funcione y se sienta único.</p>
+    </div>
+    <figure class="dev-fig">
+      <div class="chibi chibi--dev"><img src="chibi-spartannic-levelUp-pixel.png" alt="Chibi de Spartannic, parte del equipo de desarrollo"></div>
+      <figcaption class="plate"><span class="rank rank--dev">Dev</span><strong>Spartannic</strong><small>Programa gran parte del servidor</small></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec" id="normas">
+  <div class="wrap">
+    <h2>Normas</h2>
+    <p class="lead">Aquí irán las normas del servidor para que todos juguemos a gusto.</p>
+    <div class="vacio">Próximamente…</div>
+  </div>
+</section>
+
+<section class="sec rk" id="rangos" aria-label="Rangos de pago">
+  <div class="rk-track">
+    <div class="rk-stage">
+      <header class="rk-head"><h2>Rangos de pago</h2><p>Siete rangos, cada uno forjado en un mineral. Sigue bajando para recorrerlos.</p></header>
+      <div class="rk-slides">
+        <article class="rk-slide" data-bg="#5b6677" data-glow="#e2e8ef" style="--bg:#5b6677;--tx:#ffffff;--g1:#aab5c1;--g2:#c5ced8;--g3:#e2e8ef;--g4:#ffffff;">
+          <div class="rk-art"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAb0lEQVR42mNgGPKAEZnDx6f0nyLT+PiU/hML2icv/s/Hp/SfiVLbmZA5Hz/eJUpTx5QlqAZQ4ncWGGP7gW0Mx87fJKjh0NHTuL1ACmivrqfMAAYGBoZPn+4xMlFiO0Uu+PTpHiM8JZITCzADBh4AAFEbSM5Fh0YqAAAAAElFTkSuQmCC" alt=""></div>
+          <div class="rk-info"><span class="rk-n">1<small> / 7</small></span><h3>Hierro</h3><p>Rango inicial · Plateado claro y brillante.</p><div class="r-bar"><i></i><i></i><i></i><i></i></div><small class="rk-soon">Ventajas próximamente</small></div>
+        </article>
+        <article class="rk-slide" data-bg="#081a47" data-glow="#2455f5" style="--bg:#081a47;--tx:#6f8bff;--g1:#101a70;--g2:#1736c5;--g3:#2455f5;--g4:#5575ff;">
+          <div class="rk-art"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVR42mNgGGjAiC7Ax6f0H5+GT5/uMeI0AKZ59a67WDWHuiljGMKErtk9/S5O22FyyK5kQtecEozb+SnBmIYwwjicGouxavr5ZDVW8X9fNjF8+nSPEe6F7zdiiQ75f182MaB4ARYopBgC08OELkDIEGTbUQzAFse4NGONRmSAzRXYNGM1AJ9XsLmQCV8AwQxB9zfevIArXxAKH7IBAEzDWLzf6ChdAAAAAElFTkSuQmCC" alt=""></div>
+          <div class="rk-info"><span class="rk-n">2<small> / 7</small></span><h3>Zafiro</h3><p>Azul eléctrico intenso.</p><div class="r-bar"><i></i><i></i><i></i><i></i></div><small class="rk-soon">Ventajas próximamente</small></div>
+        </article>
+        <article class="rk-slide" data-bg="#08090d" data-glow="#303743" style="--bg:#08090d;--tx:#b7bdce;--g1:#08090d;--g2:#171b23;--g3:#303743;--g4:#596372;">
+          <div class="rk-art"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoUlEQVR42mNgGGjAiC6QVdzxH5+Gab0VjDgNgGlWVJTDqvn+/UcYhjCha37/4RVO22FyyK5kQtdsZGiC0wAjQxMMQ1hgknt2rmdgYGBgOHvyKIqmNy+fYjUsIi4H1Qsu7oFEhzxMM9wAWKCQYghMDxO6ACFDkG1HMQBbHOPSjDUakQE2V2DTjNUAfF7B5kImfAEEMwTd33jzAq58QSh8yAYAD+RGpeR9D1cAAAAASUVORK5CYII=" alt=""></div>
+          <div class="rk-info"><span class="rk-n">3<small> / 7</small></span><h3>Ónix</h3><p>Negro profundo y gris carbón.</p><div class="r-bar"><i></i><i></i><i></i><i></i></div><small class="rk-soon">Ventajas próximamente</small></div>
+        </article>
+        <article class="rk-slide" data-bg="#075a6e" data-glow="#75e8ff" style="--bg:#075a6e;--tx:#75e8ff;--g1:#168daa;--g2:#39cff5;--g3:#75e8ff;--g4:#a5f4ff;">
+          <div class="rk-art"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArklEQVR42mNgGGjAiC7Ax6f0H5+GT5/uMeI0AKb56Ye7WDVLCyhjGMKErnn6s7s4bYfJYbiSj0/pPx+f0v+lX/7///wPP1765f9/mHq4F/j4lP5rH7yM1da7+7ZiFf/RWMHw6dM9RrgXrtrrEh3yPxorGFDCABYopBgC08OELkDIEGTbUQzAFse4NGONRmSAzRXYNGM1AJ9XsLmQCV8AwQxB9zfevIArXxAKH7IBACRLdfP/EtmNAAAAAElFTkSuQmCC" alt=""></div>
+          <div class="rk-info"><span class="rk-n">4<small> / 7</small></span><h3>Diamante</h3><p>Celeste cristalino.</p><div class="r-bar"><i></i><i></i><i></i><i></i></div><small class="rk-soon">Ventajas próximamente</small></div>
+        </article>
+        <article class="rk-slide" data-bg="#1a6b38" data-glow="#b6ff83" style="--bg:#1a6b38;--tx:#b6ff83;--g1:#32d957;--g2:#6bff70;--g3:#b6ff83;--g4:#e0ffc2;">
+          <div class="rk-art"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArElEQVR42mNgoBAwogvw8Sn9J6Tp06d7jFgNgGle8TGRQYvBHkNj0K2pDHdMT6MYwoRNMz6gctoURT0jPs3Irgi6NRVFDuYSuAHomrcyvMWw/fit5xiGMOFz7hSGfoYpDP14vcREaTSy4JPMYSgkaADFLhh4A3Cmg8zZOzEUC9tLY6QDJuRkGcE/H6dmBgYGhrcHn6Jo/vTpHiPWvCDYI4XTye9LnqHkBYpzIwCH90ZEmwQzfAAAAABJRU5ErkJggg==" alt=""></div>
+          <div class="rk-info"><span class="rk-n">5<small> / 7</small></span><h3>Jade</h3><p>Verde claro, vivo y luminoso.</p><div class="r-bar"><i></i><i></i><i></i><i></i></div><small class="rk-soon">Ventajas próximamente</small></div>
+        </article>
+        <article class="rk-slide" data-bg="#36005a" data-glow="#d34dff" style="--bg:#36005a;--tx:#e08cff;--g1:#7800d4;--g2:#a600ff;--g3:#d34dff;--g4:#eca8ff;">
+          <div class="rk-art"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACOklEQVR42qWTMWjbQBSGP0mHJA6cQQjiQMDWkqFeCvFeQnEgDQkUusXgzZNnE0LpEDp56uApm8EtKRgKCcLQUEz3bI1nu5sNxoMNQlYlX4cgpaZbe3DTHd97973/tIuKr/iPJQDWdwW6Vg2ALWMbgEUyxdZyzOMR9djnRjYBmERD2vGYplVm/usnXFR85YiCOudB7Vr7yhEF5YiCeiZfKUcU1K61r3atfXXOg/pxotTsWilHFNQnlJK6q3QAabjcyCbVVQdpuDjCI1oHOMLD1nIA3MgmH2+H7FWLSMOlIYoA6AC2lmORTDk7KdE/vCdUy2yn5ymkHvtsGdvkzdIT4DIcYGs5Xt8dsHMG1VWHIJkRJDNCtcTUJQDROqBr1TgNWplEHaAhilyGA+bxiL1qkZ7doB77SMPdMB6qJUEy40ocZxAdIG+WeGcf0I7H5M0S83iUOUmnkj7FER7ScOnZjSfAIpkSqiUNUeRt4OMIj0k0pGc3OA1aTKJh1oGpyw2oDmSVpOHStMpchgMc4WXivh+N+fzyUd4kGjKJhpkXPb10GrQIkhlbxnYGSYPzol9k5+yx03TMi2T6BADoWjXqsU+0DgiS2QYE4HmtTHXV+SvKejoeW8vRtWq8CdtIw6V/eM/hNbTjMY7wCJIZPbtBddXhS2WQZUMAzOMR0nAzSHXV4ehrGfsuB/ZjTppWmXk84kocw62PKf9wkEbW1OVGpVTUe3lMa3WPIzzyZmkjB9pFxVcfvtX++Tv/BmLM/eBsItGpAAAAAElFTkSuQmCC" alt=""></div>
+          <div class="rk-info"><span class="rk-n">6<small> / 7</small></span><h3>Obsidiana</h3><p>Morado intenso y fucsia brillante.</p><div class="r-bar"><i></i><i></i><i></i><i></i></div><small class="rk-soon">Ventajas próximamente</small></div>
+        </article>
+        <article class="rk-slide" data-bg="#562200" data-glow="#ff8c00" style="--bg:#562200;--tx:#ffe85a;--g1:#b94300;--g2:#ef6500;--g3:#ff8c00;--g4:#ffb900;--g5:#fff04a;">
+          <div class="rk-art"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA8klEQVR42o2SIQvCUBSFzxYHA3+DBmGyumI0aTL4R0wGg2lhyS6sGwymgU0YK/YZBsZFkzBsMzzvtnf33mOnXLiP8937Dte6LVDjr+0DjZ4fWBggy3NRHwMgGLfN+Xk4xOaTASA/iOq57XZaAJ8ymvYhJpDVnUQmST4w2+i/1DS0EF8UgvCQJWIP4rdvWewAAJKiwvXVQnoreS7q/CL3sthBUlRSjyC2Kpjuutwc3lcAgPWEZaD6ymkpzGEE7HeGO+DiaXNzGImalhoASVo9UgONAAqKTF1IWgLvL8y3TllQYNysDVEHSUvRI7PyDkwQVdA/qENdN6DqI10AAAAASUVORK5CYII=" alt=""></div>
+          <div class="rk-info"><span class="rk-n">7<small> / 7</small></span><h3>Meteorito</h3><p>Rango supremo · Naranjo fuego y amarillo estelar.</p><div class="r-bar"><i></i><i></i><i></i><i></i><i></i></div><small class="rk-soon">Ventajas próximamente</small></div>
+        </article>
+      </div>
+      <nav class="rk-rail" aria-label="Elegir rango"><button type="button" style="--g:#e2e8ef" aria-label="Hierro"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAb0lEQVR42mNgGPKAEZnDx6f0nyLT+PiU/hML2icv/s/Hp/SfiVLbmZA5Hz/eJUpTx5QlqAZQ4ncWGGP7gW0Mx87fJKjh0NHTuL1ACmivrqfMAAYGBoZPn+4xMlFiO0Uu+PTpHiM8JZITCzADBh4AAFEbSM5Fh0YqAAAAAElFTkSuQmCC" alt=""><span>Hierro</span></button><button type="button" style="--g:#2455f5" aria-label="Zafiro"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVR42mNgGGjAiC7Ax6f0H5+GT5/uMeI0AKZ59a67WDWHuiljGMKErtk9/S5O22FyyK5kQtecEozb+SnBmIYwwjicGouxavr5ZDVW8X9fNjF8+nSPEe6F7zdiiQ75f182MaB4ARYopBgC08OELkDIEGTbUQzAFse4NGONRmSAzRXYNGM1AJ9XsLmQCV8AwQxB9zfevIArXxAKH7IBAEzDWLzf6ChdAAAAAElFTkSuQmCC" alt=""><span>Zafiro</span></button><button type="button" style="--g:#303743" aria-label="Ónix"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoUlEQVR42mNgGGjAiC6QVdzxH5+Gab0VjDgNgGlWVJTDqvn+/UcYhjCha37/4RVO22FyyK5kQtdsZGiC0wAjQxMMQ1hgknt2rmdgYGBgOHvyKIqmNy+fYjUsIi4H1Qsu7oFEhzxMM9wAWKCQYghMDxO6ACFDkG1HMQBbHOPSjDUakQE2V2DTjNUAfF7B5kImfAEEMwTd33jzAq58QSh8yAYAD+RGpeR9D1cAAAAASUVORK5CYII=" alt=""><span>Ónix</span></button><button type="button" style="--g:#75e8ff" aria-label="Diamante"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArklEQVR42mNgGGjAiC7Ax6f0H5+GT5/uMeI0AKb56Ye7WDVLCyhjGMKErnn6s7s4bYfJYbiSj0/pPx+f0v+lX/7///wPP1765f9/mHq4F/j4lP5rH7yM1da7+7ZiFf/RWMHw6dM9RrgXrtrrEh3yPxorGFDCABYopBgC08OELkDIEGTbUQzAFse4NGONRmSAzRXYNGM1AJ9XsLmQCV8AwQxB9zfevIArXxAKH7IBACRLdfP/EtmNAAAAAElFTkSuQmCC" alt=""><span>Diamante</span></button><button type="button" style="--g:#b6ff83" aria-label="Jade"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArElEQVR42mNgoBAwogvw8Sn9J6Tp06d7jFgNgGle8TGRQYvBHkNj0K2pDHdMT6MYwoRNMz6gctoURT0jPs3Irgi6NRVFDuYSuAHomrcyvMWw/fit5xiGMOFz7hSGfoYpDP14vcREaTSy4JPMYSgkaADFLhh4A3Cmg8zZOzEUC9tLY6QDJuRkGcE/H6dmBgYGhrcHn6Jo/vTpHiPWvCDYI4XTye9LnqHkBYpzIwCH90ZEmwQzfAAAAABJRU5ErkJggg==" alt=""><span>Jade</span></button><button type="button" style="--g:#d34dff" aria-label="Obsidiana"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACOklEQVR42qWTMWjbQBSGP0mHJA6cQQjiQMDWkqFeCvFeQnEgDQkUusXgzZNnE0LpEDp56uApm8EtKRgKCcLQUEz3bI1nu5sNxoMNQlYlX4cgpaZbe3DTHd97973/tIuKr/iPJQDWdwW6Vg2ALWMbgEUyxdZyzOMR9djnRjYBmERD2vGYplVm/usnXFR85YiCOudB7Vr7yhEF5YiCeiZfKUcU1K61r3atfXXOg/pxotTsWilHFNQnlJK6q3QAabjcyCbVVQdpuDjCI1oHOMLD1nIA3MgmH2+H7FWLSMOlIYoA6AC2lmORTDk7KdE/vCdUy2yn5ymkHvtsGdvkzdIT4DIcYGs5Xt8dsHMG1VWHIJkRJDNCtcTUJQDROqBr1TgNWplEHaAhilyGA+bxiL1qkZ7doB77SMPdMB6qJUEy40ocZxAdIG+WeGcf0I7H5M0S83iUOUmnkj7FER7ScOnZjSfAIpkSqiUNUeRt4OMIj0k0pGc3OA1aTKJh1oGpyw2oDmSVpOHStMpchgMc4WXivh+N+fzyUd4kGjKJhpkXPb10GrQIkhlbxnYGSYPzol9k5+yx03TMi2T6BADoWjXqsU+0DgiS2QYE4HmtTHXV+SvKejoeW8vRtWq8CdtIw6V/eM/hNbTjMY7wCJIZPbtBddXhS2WQZUMAzOMR0nAzSHXV4ehrGfsuB/ZjTppWmXk84kocw62PKf9wkEbW1OVGpVTUe3lMa3WPIzzyZmkjB9pFxVcfvtX++Tv/BmLM/eBsItGpAAAAAElFTkSuQmCC" alt=""><span>Obsidiana</span></button><button type="button" style="--g:#ff8c00" aria-label="Meteorito"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA8klEQVR42o2SIQvCUBSFzxYHA3+DBmGyumI0aTL4R0wGg2lhyS6sGwymgU0YK/YZBsZFkzBsMzzvtnf33mOnXLiP8937Dte6LVDjr+0DjZ4fWBggy3NRHwMgGLfN+Xk4xOaTASA/iOq57XZaAJ8ymvYhJpDVnUQmST4w2+i/1DS0EF8UgvCQJWIP4rdvWewAAJKiwvXVQnoreS7q/CL3sthBUlRSjyC2Kpjuutwc3lcAgPWEZaD6ymkpzGEE7HeGO+DiaXNzGImalhoASVo9UgONAAqKTF1IWgLvL8y3TllQYNysDVEHSUvRI7PyDkwQVdA/qENdN6DqI10AAAAASUVORK5CYII=" alt=""><span>Meteorito</span></button></nav>
+    </div>
+  </div>
+</section>
+
+<section class="sec staff" id="postular">
+  <div class="wrap staff-in">
+    <img class="staff-ico" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA0UlEQVR42mNgoBAwwhh8fEr/CSn+9OkeI14D7G9cRpGcLM7FwMDAwJD78hvDQQ1drIbgdYH9jcsMZzcdYDD2c2BgYGDAaggjLuciG4jsMnRDGAn5G2YQLkOYiNHso/MDrgndMLya+fiU/ndFaf+Hsfn4lP4/+Pv/v9SMrf9hhjMRsrlly3cUP+e+/IailgmX5hofToYtVzgwQv2ghi48VjAMwGczroTERKzNuAALps0MRGtmYGBgYCLHZuQoZeDjU/ofZSUFjyaScyOyJmKdjQwAjEl16rDdD7UAAAAASUVORK5CYII=" alt="">
+    <div class="staff-txt">
+      <h2>Postula al staff</h2>
+      <p class="lead">Completa el formulario y cuéntanos por qué encajas en el equipo de Kairos Network.</p>
+    </div>
+    <a class="btn" data-cfg-href="formulario" href="#" target="_blank" rel="noopener">Abrir formulario</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <img src="logo_kairos.png" alt="Kairos Network">
+    <div class="redes"><a class="btn btn--oscuro" data-cfg-href="tiktok" href="#" target="_blank" rel="noopener">TikTok</a><a class="btn btn--oscuro" data-cfg-href="youtube" href="#" target="_blank" rel="noopener">YouTube</a></div>
+    <p>© 2026 Kairos Network. Kairos Network no está afiliado a Mojang Studios ni a Microsoft. Minecraft es una marca registrada de Mojang Studios.</p>
+  </div>
+</footer>
+
+<script>
+/* ============ CONFIGURA AQUÍ TUS DATOS ============ */
+const KAIROS = {
+  ip: "kairos.vultam.host",
+  version: "Java y Bedrock · casi todas las versiones",
+  discord: "https://discord.gg/QAzEX8xwYT",
+  formulario: "https://docs.google.com/forms/d/e/1FAIpQLSdE7vzXh5_xlJfNlfacpNS134f1tEH_HPycKZvzSUm-lGKA-g/viewform?usp=header",
+  tiktok: "",
+  youtube: ""
+};
+/* ================================================== */
+
+const hasIp = !!KAIROS.ip;
+document.querySelectorAll("[data-cfg]").forEach(el => {
+  const v = KAIROS[el.dataset.cfg];
+  el.textContent = (el.dataset.cfg === "ip" && !hasIp) ? "Próximamente" : v;
+});
+document.querySelectorAll("[data-cfg-href]").forEach(el => {
+  const k = el.dataset.cfgHref, v = KAIROS[k];
+  if (v) { el.href = v; return; }
+  el.removeAttribute("href"); el.classList.add("off"); el.setAttribute("aria-disabled","true");
+  if (k === "formulario") el.textContent = "Formulario próximamente";
+});
+if (!hasIp) document.querySelectorAll("[data-copy]").forEach(b => { b.disabled = true; b.lastChild.textContent = "IP próximamente"; });
+
+/* copiar IP */
+document.querySelectorAll("[data-copy]").forEach(btn => {
+  const original = btn.innerHTML;
+  btn.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(KAIROS.ip); }
+    catch (e) {
+      const t = document.createElement("textarea"); t.value = KAIROS.ip; document.body.appendChild(t);
+      t.select(); document.execCommand("copy"); t.remove();
+    }
+    btn.textContent = "IP copiada";
+    setTimeout(() => btn.innerHTML = original, 1800);
+  });
+});
+
+/* estado en vivo */
+(async () => {
+  if (!hasIp) return;
+  const box = document.getElementById("ipbox"), estado = document.getElementById("estado"), jug = document.getElementById("jugadores");
+  try {
+    const r = await fetch("https://api.mcsrvstat.us/3/" + encodeURIComponent(KAIROS.ip));
+    const d = await r.json();
+    if (d.online) {
+      box.classList.add("online"); estado.textContent = "Servidor en línea";
+      jug.textContent = d.players ? d.players.online + " de " + d.players.max + " jugadores" : "En línea";
+    } else {
+      box.classList.add("offline"); estado.textContent = "Servidor fuera de línea"; jug.textContent = "Ahora mismo no hay jugadores.";
+    }
+  } catch (e) { }
+})();
+
+/* ================= animaciones al hacer scroll ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const desktop = () => innerWidth > 900;
+const scenes = [];
+/* progreso dentro de un bloque alto con escenario fijo (sticky) */
+const trackP = (track, stage) => { const r = track.getBoundingClientRect(), t = track.offsetHeight - stage.offsetHeight; return t > 0 ? clamp(-r.top / t) : 0; };
+/* progreso de un elemento al cruzar la pantalla (a y b son fracciones de la altura) */
+const viewP = (el, a, b) => { const r = el.getBoundingClientRect(), vh = innerHeight; return clamp((vh * a - r.top) / (vh * (a - b))); };
+
+/* barra de progreso y barra superior */
+const nav = $("#nav"), bar = $("#progress");
+scenes.push(() => {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  bar.style.transform = "scaleX(" + (max > 0 ? scrollY / max : 0) + ")";
+  nav.classList.toggle("solid", scrollY > 40 || document.body.classList.contains("menu-open"));
+});
+
+/* menú del móvil */
+const burger = $("#burger");
+const setMenu = open => {
+  document.body.classList.toggle("menu-open", open);
+  burger.setAttribute("aria-expanded", String(open));
+  nav.classList.toggle("solid", open || scrollY > 40);
+};
+burger.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+$$("#menu a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+addEventListener("resize", () => { if (innerWidth > 900) setMenu(false); });
+
+/* aparición suave de títulos, textos y tarjetas */
+if (!reduce) {
+  const rvEls = $$(".sec:not(.rk) h2,.sec:not(.rk) .lead,.ip,.inv li,.paso,.vacio,.staff-in>*");
+  rvEls.forEach(el => { el.classList.add("rv"); el.style.setProperty("--d", ([...el.parentNode.children].indexOf(el) % 6) * 110 + "ms"); });
+  const rvIo = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); rvIo.unobserve(e.target); } }), {threshold: .15, rootMargin: "0px 0px -6% 0px"});
+  rvEls.forEach(el => rvIo.observe(el));
+}
+
+/* portada fija: al bajar, el fondo se acerca y los owners se abren hacia los lados */
+const heroTrack = $(".hero-track"), hero = $(".hero"), owners = $$(".hero .owner"), core = $(".hero .core");
+let heroOn = false;
+scenes.push(() => {
+  if (reduce || !desktop()) {
+    if (heroOn) {
+      ["--hs", "--ho"].forEach(v => hero.style.removeProperty(v));
+      owners.forEach(o => { o.style.translate = ""; o.style.opacity = ""; });
+      core.style.translate = ""; core.style.opacity = ""; heroOn = false;
+    }
+    return;
+  }
+  heroOn = true;
+  const p = trackP(heroTrack, hero);
+  hero.style.setProperty("--hs", 1 + p * .5);
+  hero.style.setProperty("--ho", 1 - p * .55);
+  owners[0].style.translate = (-p * 30) + "vw " + (p * 40) + "px";
+  owners[1].style.translate = (p * 30) + "vw " + (p * 40) + "px";
+  owners.forEach(o => { o.style.opacity = clamp(1 - p * 1.6); });
+  core.style.translate = "0 " + (p * 60) + "px";
+  core.style.opacity = clamp(1 - p * 2.2);
+});
+
+/* manifiesto: cada palabra se ilumina al bajar */
+const mani = $(".mani");
+if (mani) {
+  const words = [];
+  const wrap = (node, gold) => {
+    [...node.childNodes].forEach(ch => {
+      if (ch.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        ch.textContent.split(/(\s+)/).forEach(tok => {
+          if (!tok) return;
+          if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(" ")); return; }
+          const s = document.createElement("span"); s.className = "w" + (gold ? " gold" : ""); s.textContent = tok;
+          frag.appendChild(s); words.push(s);
+        });
+        node.replaceChild(frag, ch);
+      } else if (ch.nodeName === "B") wrap(ch, true);
+    });
+  };
+  wrap(mani, false);
+  const mt = $(".mani-track"), ms = $(".mani-stage");
+  scenes.push(() => {
+    if (reduce) return;
+    const p = trackP(mt, ms), q = clamp((p - .06) / .78), n = words.length;
+    words.forEach((w, i) => { w.style.opacity = .14 + .86 * clamp(q * n - i); });
+    mani.style.scale = .94 + .06 * clamp(p * 3);
+  });
+}
+
+/* escalera del staff: cada peldaño sube en su momento */
+const ladder = $(".ladder");
+if (ladder && !reduce) {
+  const steps = [...ladder.children];
+  scenes.push(() => {
+    const p = viewP(ladder, .95, .4);
+    steps.forEach((s, i) => { const l = clamp((p * 1.7 - i * .15) / .55); s.style.translate = "0 " + ((1 - l) * 110) + "px"; s.style.opacity = l; });
+  });
+}
+
+/* equipo de devs: el chibi se desplaza más lento que la página */
+const devSec = $("#equipo"), devFig = $(".dev-fig");
+if (devSec && devFig && !reduce) {
+  scenes.push(() => {
+    const r = devSec.getBoundingClientRect(), p = clamp((innerHeight - r.top) / (innerHeight + r.height));
+    devFig.style.translate = "0 " + ((.5 - p) * 100) + "px";
+  });
+}
+
+/* rangos: presentación fija que cambia de color y de mineral */
+const rk = $(".rk");
+if (rk && !reduce) {
+  const track = $(".rk-track", rk), stage = $(".rk-stage", rk), slides = $$(".rk-slide", rk), chips = $$(".rk-rail button", rk);
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const cols = slides.map(s => ({bg: hex(s.dataset.bg), gl: hex(s.dataset.glow)}));
+  const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
+  const arts = slides.map(s => $(".rk-art", s)), infos = slides.map(s => $(".rk-info", s)), bars = slides.map(s => $$(".r-bar i", s));
+  let act = -1;
+  scenes.push(() => {
+    const n = slides.length, f = trackP(track, stage) * (n - 1), i0 = Math.floor(f), i1 = Math.min(n - 1, i0 + 1), t = f - i0;
+    stage.style.setProperty("--bgc", "rgb(" + mix(cols[i0].bg, cols[i1].bg, t) + ")");
+    stage.style.setProperty("--glowc", "rgba(" + mix(cols[i0].gl, cols[i1].gl, t) + ",.38)");
+    slides.forEach((s, i) => {
+      const d = i - f, ad = Math.abs(d), op = clamp(1 - (ad - .14) * 2.3);
+      s.style.opacity = op; s.style.visibility = op > 0 ? "visible" : "hidden"; s.style.pointerEvents = op > .6 ? "auto" : "none";
+      arts[i].style.transform = "translateY(" + (d * 110) + "px) scale(" + (1 - Math.min(ad, 1) * .25) + ")";
+      infos[i].style.transform = "translateY(" + (d * 70) + "px)";
+      bars[i].forEach((b, k) => { b.style.transform = "scaleX(" + clamp((op * 1.5 - k * .14) / .6) + ")"; });
+    });
+    const ai = Math.round(f);
+    if (ai !== act) {
+      act = ai;
+      chips.forEach((c, j) => { c.classList.toggle("on", j === ai); if (j === ai) c.setAttribute("aria-current", "true"); else c.removeAttribute("aria-current"); });
+    }
+  });
+  chips.forEach((c, i) => c.addEventListener("click", () => {
+    const top = track.getBoundingClientRect().top + scrollY, tot = track.offsetHeight - stage.offsetHeight;
+    scrollTo({top: top + tot * i / (slides.length - 1), behavior: "smooth"});
+  }));
+}
+
+/* bucle: una sola lectura de scroll por fotograma */
+let ticking = false;
+const run = () => { ticking = false; scenes.forEach(f => f()); };
+const req = () => { if (!ticking) { ticking = true; requestAnimationFrame(run); } };
+addEventListener("scroll", req, {passive: true});
+addEventListener("resize", req);
+run();
+</script>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kairos Network | Servidor de Minecraft</title>
+<meta name="description" content="Kairos Network: un network de Minecraft para quienes juegan en serio. Conoce el servidor, al equipo y únete.">
+<link rel="icon" href="logo_kairos.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --abismo:#070b1f;      /* fondo base */
+  --medianoche:#0d1436;  /* paneles */
+  --borde:#26307a;       /* bordes azules */
+  --oro:#ffb020;
+  --oro-fuerte:#ff7a00;
+  --oro-claro:#ffd54a;
+  --diamante:#4de6f5;
+  --amatista:#9b3fe0;
+  --hielo:#e8f1ff;
+  --apagado:#97a3cf;
+  --display:"Pixelify Sans","Press Start 2P",ui-monospace,"Courier New",monospace;
+  --texto:"Barlow","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{
+  font-family:var(--texto);font-size:1.0625rem;line-height:1.6;color:var(--hielo);
+  background:
+    linear-gradient(rgba(77,230,245,.035) 1px,transparent 1px) 0 0/48px 48px,
+    linear-gradient(90deg,rgba(77,230,245,.035) 1px,transparent 1px) 0 0/48px 48px,
+    var(--abismo);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--diamante);outline-offset:3px}
+.wrap{width:min(1120px,92vw);margin-inline:auto}
+
+/* ---------- botones (borde inferior grueso, estilo pixel) ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;
+  font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:.02em;
+  padding:12px 22px;border:0;color:#2b1300;
+  background:linear-gradient(var(--oro-claro),var(--oro) 55%,var(--oro-fuerte));
+  box-shadow:0 -4px 0 0 #7a3a00,0 4px 0 0 #7a3a00,-4px 0 0 0 #7a3a00,4px 0 0 0 #7a3a00,inset 0 -5px 0 rgba(122,58,0,.45),inset 0 3px 0 rgba(255,255,255,.45);
+  margin:4px;transition:transform .12s,filter .12s;
+}
+.btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.btn:active{transform:translateY(2px)}
+.btn--oscuro{
+  color:var(--hielo);background:linear-gradient(#1b2560,#101842);
+  box-shadow:0 -4px 0 0 #3a49b8,0 4px 0 0 #3a49b8,-4px 0 0 0 #3a49b8,4px 0 0 0 #3a49b8,inset 0 -5px 0 rgba(0,0,0,.35),inset 0 3px 0 rgba(255,255,255,.12);
+}
+.btn img{width:22px;height:22px;image-rendering:pixelated}
+
+/* ---------- barra superior ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .25s,box-shadow .25s}
+.nav.solid{background:rgba(7,11,31,.92);backdrop-filter:blur(8px);box-shadow:0 4px 0 0 #1a2260}
+.nav-in{width:min(1280px,94vw);margin-inline:auto;height:68px;display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--display);font-weight:700;font-size:1.3rem;color:var(--oro-claro);text-shadow:0 3px 0 #7a3a00}
+.brand img{width:44px;height:44px;image-rendering:auto}
+.links{display:flex;gap:26px;margin-left:auto;list-style:none}
+.links a{text-decoration:none;font-weight:600;color:var(--hielo);opacity:.85;padding:6px 2px;border-bottom:3px solid transparent}
+.links a:hover{opacity:1;border-bottom-color:var(--oro)}
+.nav .btn{padding:8px 16px;font-size:.95rem}
+
+/* ---------- portada ---------- */
+.hero{
+  position:relative;isolation:isolate;overflow:hidden;
+  height:min(100vh,56.25vw);min-height:640px;
+  background:var(--abismo) url("kairos_invitacion_pro.png") center/cover no-repeat;
+}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:22%;z-index:-1;background:linear-gradient(transparent,var(--abismo))}
+.stage{height:100%;display:grid;grid-template-columns:1fr minmax(0,46%) 1fr;align-items:end;padding:72px 3vw 4vh}
+.core{align-self:end;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding-bottom:1vh}
+
+.owner{position:relative;justify-self:center;display:flex;flex-direction:column;align-items:center;gap:14px;animation:subir .9s cubic-bezier(.2,.8,.2,1) both}
+.owner--der{animation-delay:.18s}
+.owner::before{ /* resplandor dorado bajo el chibi */
+  content:"";position:absolute;left:50%;bottom:62px;width:150%;aspect-ratio:3/1;transform:translateX(-50%);
+  background:radial-gradient(ellipse at center,rgba(255,176,32,.38),transparent 65%);z-index:-1;
+}
+@keyframes subir{from{opacity:0;transform:translateY(46px)}to{opacity:1;transform:none}}
+
+/* recorte exacto de cada chibi (los archivos tienen bordes transparentes distintos) */
+.chibi{position:relative;overflow:hidden;width:clamp(120px,19vw,380px);cursor:pointer}
+.chibi img{position:absolute;max-width:none;height:auto;image-rendering:pixelated}
+.chibi--noa{aspect-ratio:333/369}
+.chibi--noa img{width:153.75%;left:-27.03%;top:-19.51%}
+.chibi--angel{aspect-ratio:auto}
+.chibi--angel img{position:static;width:100%;height:auto}
+.chibi--dev{aspect-ratio:1/1;width:min(100%,400px)}
+.chibi--dev img{inset:0;width:100%}
+.chibi:hover{animation:salto .5s steps(6)}
+@keyframes salto{40%{transform:translateY(-22px)}}
+
+/* placa de nombre: tooltip de Minecraft */
+.plate{
+  display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 22px 11px;margin:4px;
+  background:#100622;box-shadow:0 -4px 0 0 #4a22b5,0 4px 0 0 #4a22b5,-4px 0 0 0 #4a22b5,4px 0 0 0 #4a22b5,inset 0 0 0 2px #1d0b44;
+  text-align:center;
+}
+.rank{font-family:var(--display);font-weight:700;font-size:.85rem;color:#2b1300;background:linear-gradient(var(--oro-claro),var(--oro-fuerte));padding:0 10px;line-height:1.5}
+.rank--dev{background:linear-gradient(#9dffbf,#17dd62)}
+.plate strong{font-family:var(--display);font-size:1.5rem;font-weight:700;line-height:1.15;color:var(--hielo)}
+.plate small{font-size:.85rem;color:var(--apagado)}
+
+/* panel de información al pasar el mouse (a la altura de los pies) */
+.owner{z-index:5}
+.owner:hover,.owner:focus-within{z-index:20}
+.info{
+  position:absolute;bottom:96px;left:100%;width:min(300px,86vw);
+  transform:translateX(14px);opacity:0;visibility:hidden;pointer-events:none;
+  padding:16px 18px 18px;margin:4px;text-align:left;
+  background:#100622;
+  box-shadow:0 -4px 0 0 #4a22b5,0 4px 0 0 #4a22b5,-4px 0 0 0 #4a22b5,4px 0 0 0 #4a22b5,inset 0 0 0 2px #1d0b44,0 14px 40px rgba(0,0,0,.55);
+  transition:opacity .18s,transform .18s,visibility .18s;
+}
+.owner--der .info{left:auto;right:100%;transform:translateX(-14px)}
+.info::after{ /* flechita hacia el chibi */
+  content:"";position:absolute;left:-16px;bottom:30px;width:16px;height:16px;
+  background:#4a22b5;clip-path:polygon(100% 0,100% 100%,0 50%);
+}
+.owner--der .info::after{left:auto;right:-16px;clip-path:polygon(0 0,0 100%,100% 50%)}
+.owner:hover .info,.owner:focus-within .info{opacity:1;visibility:visible;transform:none}
+.info-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+.info-head strong{font-family:var(--display);font-size:1.35rem;line-height:1.1;color:var(--hielo)}
+.info small{display:block;color:var(--diamante);font-weight:600;margin-bottom:10px}
+.info ul{list-style:none;display:grid;gap:6px}
+.info li{font-size:.95rem;line-height:1.35;color:#c5d0f0;padding-left:18px;position:relative}
+.info li::before{content:"";position:absolute;left:0;top:.5em;width:8px;height:8px;background:var(--oro);box-shadow:0 2px 0 #7a3a00}
+.info .tag{
+  display:inline-block;margin-top:12px;font-family:var(--display);font-weight:700;font-size:.85rem;
+  color:#2b1300;background:linear-gradient(var(--oro-claro),var(--oro-fuerte));padding:2px 10px;
+}
+@media (max-width:900px){
+  .info{left:0;right:auto;bottom:90px;transform:translateY(14px)}
+  .owner--der .info{left:auto;right:0;transform:translateY(14px)}
+  .owner:hover .info,.owner:focus-within .info{transform:none}
+  .info::after,.owner--der .info::after{display:none}
+}
+
+/* ---------- secciones ---------- */
+.sec{padding:clamp(64px,9vw,120px) 0;position:relative}
+.sec + .sec::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,rgba(255,176,32,.7) 0 12px,transparent 12px 24px)}
+h2{
+  font-family:var(--display);font-weight:700;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.05;
+  color:var(--oro-claro);text-shadow:0 4px 0 #8a4300,0 8px 0 rgba(0,0,0,.4);margin-bottom:20px;
+}
+.lead{max-width:52ch;color:#c5d0f0;font-size:1.15rem}
+
+.server{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(32px,6vw,80px);align-items:start}
+.ip{margin-top:30px;max-width:520px;margin-inline:4px;background:#050816;padding:16px 18px;
+  box-shadow:0 -4px 0 0 var(--borde),0 4px 0 0 var(--borde),-4px 0 0 0 var(--borde),4px 0 0 0 var(--borde)}
+.ip-top{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--apagado);margin-bottom:6px}
+.ip-top i{width:10px;height:10px;background:var(--apagado)}
+.ip.online .ip-top i{background:#3dff7a;box-shadow:0 0 10px #3dff7a}
+.ip.offline .ip-top i{background:#ff4d4d}
+.ip-row{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.ip code{font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--diamante);word-break:break-all;text-shadow:0 0 18px rgba(77,230,245,.35)}
+
+.inv{list-style:none;display:grid;gap:14px}
+.inv li{
+  display:flex;gap:16px;align-items:center;padding:14px 18px;margin:4px;background:#0a0f2c;
+  box-shadow:0 -4px 0 0 #2a1a6e,0 4px 0 0 #2a1a6e,-4px 0 0 0 #2a1a6e,4px 0 0 0 #2a1a6e;transition:box-shadow .15s,background .15s;
+}
+.inv li:hover{background:#0f1640;box-shadow:0 -4px 0 0 var(--amatista),0 4px 0 0 var(--amatista),-4px 0 0 0 var(--amatista),4px 0 0 0 var(--amatista)}
+.slot{flex:none;width:60px;height:60px;display:grid;place-items:center;background:#1a2050;
+  box-shadow:inset 4px 4px 0 #04061a,inset -4px -4px 0 #3a4690}
+.slot img{width:36px;height:36px;image-rendering:pixelated}
+.inv h3{font-family:var(--display);font-size:1.2rem;font-weight:700;color:var(--oro-claro);line-height:1.2}
+.inv p{color:#c5d0f0;font-size:1rem;line-height:1.4}
+.inv a{color:var(--diamante);font-weight:600;text-underline-offset:3px}
+
+/* equipo dev */
+.dev{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(24px,6vw,80px);align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;list-style:none}
+.chips li{padding:6px 14px;margin:4px;font-weight:600;background:#0a0f2c;color:var(--diamante);box-shadow:0 -3px 0 0 #1c5a6b,0 3px 0 0 #1c5a6b,-3px 0 0 0 #1c5a6b,3px 0 0 0 #1c5a6b}
+.dev-fig{display:flex;flex-direction:column;align-items:center;gap:14px;position:relative}
+.dev-fig::before{content:"";position:absolute;inset:8% 0 auto;aspect-ratio:1;background:radial-gradient(circle,rgba(61,255,122,.22),transparent 62%);z-index:-1}
+
+/* staff */
+.staff{background:linear-gradient(120deg,rgba(155,63,224,.16),rgba(77,230,245,.07) 60%,transparent)}
+.staff-in{display:flex;align-items:center;gap:clamp(20px,5vw,60px);flex-wrap:wrap}
+.staff-ico{width:110px;height:110px;image-rendering:pixelated;flex:none}
+.staff-txt{flex:1 1 340px}
+
+footer{padding:40px 0 56px;border-top:4px solid #1a2260;color:var(--apagado);font-size:.92rem}
+.foot{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.foot img{width:56px;height:56px}
+.foot p{max-width:70ch}
+
+
+/* escalera del staff */
+.ladder{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);gap:16px;align-items:end;margin-top:54px}
+.step{display:flex;flex-direction:column;gap:6px;padding:14px 10px 18px;margin:4px;text-align:center;background:#0a0f2c;
+  box-shadow:0 -4px 0 0 var(--c),0 4px 0 0 var(--c),-4px 0 0 0 var(--c),4px 0 0 0 var(--c)}
+.step:nth-child(1){min-height:92px}.step:nth-child(2){min-height:128px}.step:nth-child(3){min-height:164px}
+.step:nth-child(4){min-height:200px}.step:nth-child(5){min-height:240px}.step:nth-child(6){min-height:290px;background:#1a1204}
+.step .r{font-family:var(--display);font-weight:700;font-size:1.25rem;color:var(--c);text-shadow:0 3px 0 rgba(0,0,0,.45)}
+.step .n{font-weight:600;color:var(--hielo);font-size:.95rem;overflow-wrap:normal}
+.off{pointer-events:none;opacity:.55}
+.btn:disabled{filter:grayscale(.5) brightness(.85);cursor:not-allowed;transform:none}
+@media (max-width:900px){
+  .ladder{grid-template-columns:1fr;display:flex;flex-direction:column-reverse;gap:14px}
+  .step{min-height:0!important;flex-direction:row;align-items:baseline;gap:14px;flex-wrap:wrap}
+}
+
+/* ---------- móvil ---------- */
+@media (max-width:900px){
+  .links{display:none}
+  .nav .btn{margin-left:auto}
+  .hero{height:auto;min-height:0;padding-top:56.25vw;background-size:100% auto;background-position:top center}
+  .hero::after{display:none}
+  .stage{display:grid;grid-template-columns:1fr 1fr;gap:22px 4vw;align-items:end;padding:22px 4vw 48px}
+  .core{grid-column:1/-1;grid-row:1;padding:0}
+  .chibi{width:min(38vw,240px)}
+  .server,.dev{grid-template-columns:1fr}
+  .dev-fig{order:-1}
+}
+@media (max-width:420px){.plate{padding:8px 12px}.plate strong{font-size:1.2rem}.btn{font-size:.95rem;padding:10px 16px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#inicio"><img src="logo_kairos.png" alt="">Kairos Network</a>
+    <ul class="links">
+      <li><a href="#servidor">El servidor</a></li>
+      <li><a href="#staff">Staff</a></li>
+      <li><a href="#equipo">Devs</a></li>
+      <li><a href="#postular">Postular</a></li>
+    </ul>
+    <a class="btn btn--oscuro" data-cfg-href="discord" href="#" target="_blank" rel="noopener">Discord</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio" aria-label="Kairos Network">
+  <h1 class="sr-only">Kairos Network, servidor de Minecraft</h1>
+  <div class="stage">
+    <figure class="owner">
+      <div class="chibi chibi--noa" tabindex="0"><img src="chibi-noacrackk67-standing-pfp.png" alt="Chibi de NoaCrack, owner de Kairos Network"></div>
+      <div class="info" role="tooltip">
+        <div class="info-head"><span class="rank">Owner</span><strong>NoaCrack</strong></div>
+        <small>Noacrackk67 · Ella</small>
+        <ul>
+          <li>Crea el contenido de Kairos Network.</li>
+          <li>Se encarga de la publicidad del servidor.</li>
+          <li>Diseña todo lo visual: la imagen y el estilo de Kairos.</li>
+          <li>La cara creativa del network.</li>
+        </ul>
+      </div>
+      <figcaption class="plate"><span class="rank">Owner</span><strong>NoaCrack</strong><small>noacrackk67</small></figcaption>
+    </figure>
+
+    <div class="core">
+      <button class="btn" type="button" data-copy><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABsUlEQVR42qWTsYpUMRSGv/x0OsuW0rLCw0OrI4gHhAAAAAElFTkSuQmCC" alt="">Copiar IP</button>
+      <a class="btn btn--oscuro" data-cfg-href="discord" href="#" target="_blank" rel="noopener">Entrar al Discord</a>
+    </div>
+
+    <figure class="owner owner--der">
+      <div class="chibi chibi--angel" tabindex="0"><img src="chibi-angeldavid1899-block-pixel.png" onerror="this.onerror=null;this.src='chibi-angeldavid1899-standing-pfp.png'" alt="Chibi de AngelDavid, owner de Kairos Network"></div>
+      <div class="info" role="tooltip">
+        <div class="info-head"><span class="rank">Owner</span><strong>AngelDavid</strong></div>
+        <small>AngelDavid1899</small>
+        <ul>
+          <li>Administra a los jugadores y al staff.</li>
+          <li>Mantiene las páginas del network.</li>
+          <li>Programa algunas partes del servidor.</li>
+        </ul>
+        <span class="tag">★ El owner más guapo ★</span>
+      </div>
+      <figcaption class="plate"><span class="rank">Owner</span><strong>AngelDavid</strong><small>AngelDavid1899</small></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec" id="servidor">
+  <div class="wrap server">
+    <div>
+      <h2>El momento es ahora</h2>
+      <p class="lead">Kairos es el instante justo para actuar. Es un network de Minecraft hecho para quienes juegan en serio: una comunidad cuidada, un staff presente y un equipo técnico que sostiene todo por detrás.</p>
+      <div class="ip" id="ipbox">
+        <div class="ip-top"><i></i><span id="estado">IP del servidor</span></div>
+        <div class="ip-row">
+          <code data-cfg="ip">TU-IP-AQUI</code>
+          <button class="btn" type="button" data-copy>Copiar IP</button>
+        </div>
+      </div>
+    </div>
+
+    <ul class="inv">
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoUlEQVR42mNgGGjAiC7Ax6f0H5+GT5/uMeI0AKb5xMeDWDVb8NtjGMKErjn/YwtO22FyyK5kQtccyWCL04BIBlsMQxhhHNZZGlg1/bj0Gqs485S3DJ8+3WOEe+F32g2iQ555ylsGFC/AAoUUQ2B6mNAFCBmCbDuKAdjiGJdmrNGIDLC5AptmrAbg8wo2FzLhCyCYIej+xpsXcOULQuFDNgAAD7FTjNEiRYgAAAAASUVORK5CYII=" alt=""></span><div><h3>Versión</h3><p data-cfg="version">Java Edition</p></div></li>
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAv0lEQVR42s2TsQ7CIBCGfxoHu9zazgx9JBP3bsY38FHYTXwF36RD5zYxMbJ0MaGDAQ+KVOLiTQT+7ztyBODHEnZBJE0OqHUvnMDCj9PRBUal0AwTUvsAsOHwqJTXpatLF+ZnNtsMEwSRNHajupxf4d3ehau2XYgB4Hq74/DcoggPOBx2jg6RSJquLrOn792ADyUHBoDCPse3Eg5r3YuCv+maJIQBvIe4JonBniAl+QQvBDFJCvb+Qljh34jB/1EzRKB+uyMe2fUAAAAASUVORK5CYII=" alt=""></span><div><h3>Jugadores en línea</h3><p id="jugadores">Estado no disponible</p></div></li>
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAb0lEQVR42mNgGPKAEZnDx6f0n1QDWNAFPr6oI0rjiSnZDO4t4gxMlNjOwMCAMIBU21EMINd2lDB4d1qS4e/j2QQ1nN54AbcXSAHuLeKUGcDAwMDw6dM9RiZKbKfIBZ8+3WNECUQh0+dEahUfZJkJAIb5HBkg9NbaAAAAAElFTkSuQmCC" alt=""></span><div><h3>Modalidades</h3><p>Por ahora, Survival.</p></div></li>
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArklEQVR42mNkIAPw8Sn9h7GZyNVsf+My6QbANF96f5fh7KYDpNvMx6f0/8Hf//+lZmz9D+OPamZgYESPV2Rw6f1dBqvZ2xi+lOUyMDAwMHz6dI8Rp20rSqz+ryix+k+qs1FcMCtNgoGBgYFhadFuhrObDhC2GWYANkPSZr0gqBmeEmGaa3w44RphBhECTDDNPjo/GFq2fEexnSgDYDZvucKB4mRiDWFEDmFC/sUGAJ8thpFEn8hEAAAAAElFTkSuQmCC" alt=""></span><div><h3>Comunidad</h3><p>Súmate a nuestro <a data-cfg-href="discord" href="#" target="_blank" rel="noopener">Discord oficial</a>.</p></div></li>
+      <li><span class="slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA0UlEQVR42mNgoBAwwhh8fEr/CSn+9OkeI14D7G9cRpGcLM7FwMDAwJD78hvDQQ1drIbgdYH9jcsMZzcdYDD2c2BgYGDAaggjLuciG4jsMnRDGAn5G2YQLkOYiNHso/MDrgndMLya+fiU/ndFaf+Hsfn4lP4/+Pv/v9SMrf9hhjMRsrlly3cUP+e+/IailgmX5hofToYtVzgwQv2ghi48VjAMwGczroTERKzNuAALps0MRGtmYGBgYCLHZuQoZeDjU/ofZSUFjyaScyOyJmKdjQwAjEl16rDdD7UAAAAASUVORK5CYII=" alt=""></span><div><h3>Staff</h3><p>¿Quieres ayudar? <a data-cfg-href="formulario" href="#" target="_blank" rel="noopener">Postula al equipo</a>.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="staff">
+  <div class="wrap">
+    <h2>Nuestro staff</h2>
+    <p class="lead">Una jerarquía clara para cuidar el servidor y a la comunidad, desde helper hasta owner.</p>
+    <ol class="ladder" aria-label="Jerarquía del staff">
+      <li class="step" style="--c:#3dff7a"><span class="r">Helper</span></li>
+      <li class="step" style="--c:#4de6f5"><span class="r">Soporte</span></li>
+      <li class="step" style="--c:#5b8cff"><span class="r">Mod</span></li>
+      <li class="step" style="--c:#b06bff"><span class="r">SMod</span></li>
+      <li class="step" style="--c:#ff6a4d"><span class="r">Admin</span><span class="n">The_<wbr>Crow_<wbr>Raptor</span></li>
+      <li class="step" style="--c:#ffb020"><span class="r">Owner</span><span class="n">NoaCrack</span><span class="n">AngelDavid</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="equipo">
+  <div class="wrap dev">
+    <div>
+      <h2>También contamos con un equipo de devs</h2>
+      <p class="lead">Spartannic programa gran parte de Kairos Network. Su trabajo es lo que hace que el servidor funcione y se sienta único.</p>
+    </div>
+    <figure class="dev-fig">
+      <div class="chibi chibi--dev"><img src="chibi-spartannic-levelUp-pixel.png" alt="Chibi de Spartannic, parte del equipo de desarrollo"></div>
+      <figcaption class="plate"><span class="rank rank--dev">Dev</span><strong>Spartannic</strong><small>Programa gran parte del servidor</small></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec staff" id="postular">
+  <div class="wrap staff-in">
+    <img class="staff-ico" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA0UlEQVR42mNgoBAwwhh8fEr/CSn+9OkeI14D7G9cRpGcLM7FwMDAwJD78hvDQQ1drIbgdYH9jcsMZzcdYDD2c2BgYGDAaggjLuciG4jsMnRDGAn5G2YQLkOYiNHso/MDrgndMLya+fiU/ndFaf+Hsfn4lP4/+Pv/v9SMrf9hhjMRsrlly3cUP+e+/IailgmX5hofToYtVzgwQv2ghi48VjAMwGczroTERKzNuAALps0MRGtmYGBgYCLHZuQoZeDjU/ofZSUFjyaScyOyJmKdjQwAjEl16rDdD7UAAAAASUVORK5CYII=" alt="">
+    <div class="staff-txt">
+      <h2>Postula al staff</h2>
+      <p class="lead">Completa el formulario y cuéntanos por qué encajas en el equipo de Kairos Network.</p>
+    </div>
+    <a class="btn" data-cfg-href="formulario" href="#" target="_blank" rel="noopener">Abrir formulario</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <img src="logo_kairos.png" alt="Kairos Network">
+    <p>© 2026 Kairos Network. Kairos Network no está afiliado a Mojang Studios ni a Microsoft. Minecraft es una marca registrada de Mojang Studios.</p>
+  </div>
+</footer>
+
+<script>
+/* ============ CONFIGURA AQUÍ TUS DATOS ============ */
+const KAIROS = {
+  ip: "",                                             // IP del servidor, por ejemplo: "jugar.tuserver.com" (vacío = "Próximamente")
+  version: "Java Edition",                            // por ejemplo: "Java 1.21"
+  discord: "https://discord.gg/QAzEX8xwYT",           // invitación de tu Discord
+  formulario: ""                                      // enlace del formulario de staff (vacío = "Formulario próximamente")
+};
+/* ================================================== */
+
+const hasIp = !!KAIROS.ip;
+document.querySelectorAll("[data-cfg]").forEach(el => {
+  const v = KAIROS[el.dataset.cfg];
+  el.textContent = (el.dataset.cfg === "ip" && !hasIp) ? "Próximamente" : v;
+});
+document.querySelectorAll("[data-cfg-href]").forEach(el => {
+  const k = el.dataset.cfgHref, v = KAIROS[k];
+  if (v) { el.href = v; return; }
+  el.removeAttribute("href"); el.classList.add("off"); el.setAttribute("aria-disabled","true");
+  if (k === "formulario") el.textContent = "Formulario próximamente";
+});
+if (!hasIp) document.querySelectorAll("[data-copy]").forEach(b => { b.disabled = true; b.lastChild.textContent = "IP próximamente"; });
+
+/* copiar IP */
+document.querySelectorAll("[data-copy]").forEach(btn => {
+  const original = btn.innerHTML;
+  btn.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(KAIROS.ip); }
+    catch (e) {
+      const t = document.createElement("textarea"); t.value = KAIROS.ip; document.body.appendChild(t);
+      t.select(); document.execCommand("copy"); t.remove();
+    }
+    btn.textContent = "IP copiada";
+    setTimeout(() => btn.innerHTML = original, 1800);
+  });
+});
+
+/* estado en vivo (solo si ya pusiste tu IP) */
+(async () => {
+  if (!hasIp) return;
+  const box = document.getElementById("ipbox"), estado = document.getElementById("estado"), jug = document.getElementById("jugadores");
+  try {
+    const r = await fetch("https://api.mcsrvstat.us/3/" + encodeURIComponent(KAIROS.ip));
+    const d = await r.json();
+    if (d.online) {
+      box.classList.add("online"); estado.textContent = "Servidor en línea";
+      jug.textContent = d.players ? d.players.online + " de " + d.players.max + " jugadores" : "En línea";
+    } else {
+      box.classList.add("offline"); estado.textContent = "Servidor fuera de línea"; jug.textContent = "Ahora mismo no hay jugadores.";
+    }
+  } catch (e) { /* si falla, se deja el texto por defecto */ }
+})();
+
+/* barra superior sólida al bajar */
+const nav = document.getElementById("nav");
+const onScroll = () => nav.classList.toggle("solid", window.scrollY > 40);
+onScroll(); addEventListener("scroll", onScroll, {passive:true});
+</script>
+</body>
+</html>
